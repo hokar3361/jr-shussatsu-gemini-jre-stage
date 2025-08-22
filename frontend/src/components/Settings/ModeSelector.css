@@ -1,0 +1,98 @@
+.mode-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  background: transparent;
+  margin: 0;
+}
+
+.mode-selector__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.mode-selector__select {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 160px;
+}
+
+.mode-selector__select option {
+  background-color: #2a5298;
+  color: white;
+}
+
+.mode-selector__select:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.mode-selector__select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.mode-selector__select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mode-selector__description {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+.mode-selector__warning {
+  font-size: 0.75rem;
+  color: #ffd93d;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .mode-selector {
+    font-size: 0.8125rem;
+  }
+  
+  .mode-selector__select {
+    min-width: 140px;
+    font-size: 0.8125rem;
+  }
+  
+  .mode-selector__description {
+    display: none; /* タブレットでは説明を非表示 */
+  }
+}
+
+/* スマートフォン対応 */
+@media (max-width: 768px) {
+  .mode-selector {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .mode-selector__select {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .mode-selector__warning {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+}

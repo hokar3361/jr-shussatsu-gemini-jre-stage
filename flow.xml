@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="JR切符発券システムフロー" id="ticket-system-flow">
+    <mxGraphModel dx="2000" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2500" pageHeight="3500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- 開始 -->
+        <mxCell id="start" value="開始" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="600" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== 1. 基本情報フェーズ ========== -->
+        <mxCell id="phase1" value="１．基本情報フェーズ" style="swimlane;fillColor=#dae8fc;strokeColor=#6c8ebf;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="1240" height="400" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ask_dest" value="J：どちらまで行かれますか？&lt;br&gt;駅名は最後に「駅」とつけてください" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase1">
+          <mxGeometry x="500" y="60" width="240" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="input_info" value="利用客：XX駅まで、&lt;br&gt;大人○名、子供○名、&lt;br&gt;今日の利用で&lt;br&gt;※分割回答可能" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase1">
+          <mxGeometry x="510" y="150" width="220" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="validate" value="駅名の妥当性検証&lt;br&gt;（平仮名変換・正規化）" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="phase1">
+          <mxGeometry x="540" y="250" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="invalid_msg" value="J：恐れ入ります。&lt;br&gt;行き先が正しく聞き取れていないか、&lt;br&gt;JR東日本以外の駅名のようです。&lt;br&gt;再度お話しください。" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase1">
+          <mxGeometry x="260" y="260" width="240" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="get_routes" value="経路リストを取得&lt;br&gt;・全経路リスト&lt;br&gt;・常磐線特急リスト&lt;br&gt;・常磐線特急（在来アリ）リスト" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="phase1">
+          <mxGeometry x="750" y="250" width="240" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== 2. 常磐線フェーズ1 ========== -->
+        <mxCell id="phase2" value="２．常磐線フェーズ１" style="swimlane;fillColor=#dae8fc;strokeColor=#6c8ebf;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="580" width="2400" height="1600" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="check_joban" value="すべての経路候補内に&lt;br&gt;常磐線特急があるか？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="phase2">
+          <mxGeometry x="540" y="60" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="no_joban" value="[パターン：常磐線特急なし]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="phase2">
+          <mxGeometry x="260" y="70" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ask_joban" value="J：常磐線は特急の&lt;br&gt;ご利用でよろしいですか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase2">
+          <mxGeometry x="510" y="170" width="220" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="joban_no" value="利用客：いいえ" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase2">
+          <mxGeometry x="300" y="250" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="joban_no_pattern" value="[パターン：常磐線特急あり-利用しない]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="phase2">
+          <mxGeometry x="260" y="340" width="220" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="joban_yes" value="利用客：はい" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase2">
+          <mxGeometry x="550" y="250" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ask_time" value="J：ご乗車のお時間や、&lt;br&gt;到着のお時間は&lt;br&gt;決まっていますか？&lt;br&gt;（午前午後を明確に）" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase2">
+          <mxGeometry x="510" y="340" width="220" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- 時間指定なしルート -->
+        <mxCell id="time_no" value="利用客：いいえ" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase2">
+          <mxGeometry x="300" y="440" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="unspecified_seat_label" value="[パターン：常磐線特急あり-&lt;br&gt;時間指定なし-座席未指定券]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="phase2">
+          <mxGeometry x="280" y="510" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="unspecified_seat" value="J：座席未指定券を&lt;br&gt;ご利用になれます。&lt;br&gt;（日付指定・時間未指定）&lt;br&gt;そちらでよろしいですか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase2">
+          <mxGeometry x="270" y="560" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="unspecified_no" value="利用客：いいえ" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase2">
+          <mxGeometry x="160" y="660" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="unspecified_no_pattern" value="[パターン：常磐線特急あり-&lt;br&gt;時間指定なし-座席未指定券無し]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="phase2">
+          <mxGeometry x="120" y="740" width="220" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="unspecified_yes" value="利用客：はい" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase2">
+          <mxGeometry x="440" y="660" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="unspecified_yes_pattern" value="[パターン：常磐線特急あり-&lt;br&gt;時間指定なし-座席未指定券あり]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="phase2">
+          <mxGeometry x="400" y="740" width="220" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- 時間指定ありルート -->
+        <mxCell id="time_yes" value="利用客：はい、&lt;br&gt;N時に出発/到着&lt;br&gt;※分割回答可能" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase2">
+          <mxGeometry x="550" y="440" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="time_yes_label" value="[パターン：常磐線特急あり-時間指定あり]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="phase2">
+          <mxGeometry x="520" y="520" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="time_type" value="出発時刻指定か&lt;br&gt;到着時刻指定か" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="phase2">
+          <mxGeometry x="540" y="560" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== 到着時刻指定処理 ========== -->
+        <mxCell id="arrival_process" value="[パターン：常磐線特急あり-到着時刻指定]" style="swimlane;fillColor=#e1d5e7;strokeColor=#9673a6;startSize=30;" vertex="1" parent="phase2">
+          <mxGeometry x="800" y="60" width="500" height="700" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="search_arrival" value="指定時刻を満たす&lt;br&gt;常磐線特急を検索" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="arrival_process">
+          <mxGeometry x="170" y="50" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_exists" value="経路あり？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="arrival_process">
+          <mxGeometry x="190" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_no_route" value="J：ご指定の時間では&lt;br&gt;利用できる列車がございません。&lt;br&gt;時刻を改めて教えてください。" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="arrival_process">
+          <mxGeometry x="20" y="120" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_reset_label" value="NO:33の直後の状態に移行&lt;br&gt;→フローストップ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FF0000;" vertex="1" parent="arrival_process">
+          <mxGeometry x="30" y="210" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_propose" value="初期提案経路の導出&lt;br&gt;①到着時刻≦希望時刻&lt;br&gt;②最も希望に近い&lt;br&gt;③最短所要時間" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="arrival_process">
+          <mxGeometry x="160" y="220" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_msg_type" value="在来特急の有無" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="arrival_process">
+          <mxGeometry x="190" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_msg_no_zarai" value="J：水戸からN:N発の&lt;br&gt;特急XXX●●号で&lt;br&gt;XX駅にM:Mに降車。&lt;br&gt;よろしいでしょうか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="arrival_process">
+          <mxGeometry x="20" y="400" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_msg_with_zarai" value="J：水戸からN:N発の&lt;br&gt;特急XXX●●号でXX駅にM:M降車&lt;br&gt;そのあと在来特急XXX●●号で&lt;br&gt;XX駅からXX:XX乗車し&lt;br&gt;●●駅にYY:YY降車。&lt;br&gt;よろしいでしょうか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="arrival_process">
+          <mxGeometry x="300" y="400" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_user_response" value="利用客の応答" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="arrival_process">
+          <mxGeometry x="190" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_adjust" value="利用客：&lt;br&gt;もっと早い/遅い時間で" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="arrival_process">
+          <mxGeometry x="20" y="520" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_ok" value="利用客：はい" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="arrival_process">
+          <mxGeometry x="320" y="520" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrival_confirm_pattern" value="[パターン：常磐線特急あり-&lt;br&gt;到着時刻指定]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="arrival_process">
+          <mxGeometry x="300" y="600" width="180" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== 出発時刻指定処理 ========== -->
+        <mxCell id="departure_process" value="[パターン：常磐線特急あり-出発時刻指定]" style="swimlane;fillColor=#e1d5e7;strokeColor=#9673a6;startSize=30;" vertex="1" parent="phase2">
+          <mxGeometry x="800" y="800" width="700" height="750" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="search_departure" value="在来特急経路&lt;br&gt;提案フロー判定&lt;br&gt;（45分以内の経路）" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="departure_process">
+          <mxGeometry x="270" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_check" value="初期在来特急&lt;br&gt;経路あり？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="departure_process">
+          <mxGeometry x="290" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- 初期在来特急経路がない場合 -->
+        <mxCell id="no_zairaisen_label" value="[パターン：常磐線特急あり-&lt;br&gt;在来初期提案不可能]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="departure_process">
+          <mxGeometry x="70" y="140" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="no_zairaisen_route_check" value="初期在来特急無し&lt;br&gt;経路あり？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="departure_process">
+          <mxGeometry x="100" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="no_all_route" value="J：ご指定の時間では&lt;br&gt;利用できる列車がございません。&lt;br&gt;（想定外）" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="departure_process">
+          <mxGeometry x="20" y="270" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="joban_only_route" value="J：水戸からNN:NN発の&lt;br&gt;特急XX XX号で&lt;br&gt;XX駅にNN:NN降車。&lt;br&gt;よろしいでしょうか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="departure_process">
+          <mxGeometry x="200" y="270" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- 初期在来特急経路がある場合 -->
+        <mxCell id="zairaisen_direction" value="在来特急方面判定&lt;br&gt;（あずさ/かいじ＝中央線&lt;br&gt;それ以外＝中央線以外）" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="departure_process">
+          <mxGeometry x="450" y="130" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ask_zairaisen" value="J：在来線の特急&lt;br&gt;「XX」は利用しますか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="departure_process">
+          <mxGeometry x="460" y="230" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_no" value="利用客：いいえ" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="departure_process">
+          <mxGeometry x="380" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_no_msg" value="J：特急は常磐線のみですね。&lt;br&gt;水戸からNN:NN発の&lt;br&gt;特急XX XX号でXX駅にNN:NN降車。&lt;br&gt;よろしいでしょうか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="departure_process">
+          <mxGeometry x="360" y="390" width="160" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_no_pattern" value="[パターン：常磐線特急あり-&lt;br&gt;在来利用無し]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="departure_process">
+          <mxGeometry x="350" y="650" width="180" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_yes" value="利用客：はい" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="departure_process">
+          <mxGeometry x="540" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_direction_check" value="在来特急方面" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="departure_process">
+          <mxGeometry x="520" y="390" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="zairaisen_not_chuo_pattern" value="[パターン：常磐線特急あり-&lt;br&gt;在来利用アリ／中央線以外]&lt;br&gt;確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="departure_process">
+          <mxGeometry x="510" y="650" width="180" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="to_chuo_process" value="中央線の場合&lt;br&gt;→在来中央線処理フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="departure_process">
+          <mxGeometry x="510" y="470" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== X. 在来中央線処理フェーズ ========== -->
+        <mxCell id="phase3" value="X．在来中央線処理フェーズ [パターン：常磐線特急あり-在来利用-中央線]" style="swimlane;fillColor=#ffe6cc;strokeColor=#d79b00;startSize=30;" vertex="1" parent="phase2">
+          <mxGeometry x="1580" y="60" width="760" height="1100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_confirm_time" value="J：水戸駅をNN:NN頃に&lt;br&gt;ご出発でよろしいですか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase3">
+          <mxGeometry x="290" y="60" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_time_no" value="利用客：いいえ" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="180" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_time_restart" value="J：ご希望の出発時刻または&lt;br&gt;到着時刻から改めてお教えください。" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase3">
+          <mxGeometry x="150" y="220" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_time_restart_label" value="NO33の状態に戻る&lt;br&gt;→フローストップ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FF0000;" vertex="1" parent="phase3">
+          <mxGeometry x="170" y="290" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_time_yes" value="利用客：はい" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="460" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_station" value="J：常磐線特急は、&lt;br&gt;上野・東京、&lt;br&gt;どちらでおりますか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase3">
+          <mxGeometry x="420" y="220" width="180" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_station_input" value="利用客：東京｜上野" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="450" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_transfer_time" value="J：新宿駅での&lt;br&gt;乗り換え時間は&lt;br&gt;通常の時間で&lt;br&gt;よろしいですか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase3">
+          <mxGeometry x="420" y="390" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_transfer_yes" value="利用客：はい&lt;br&gt;（10分として保持）" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="350" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_transfer_no" value="利用客：いいえ/N時間で" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="550" y="490" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_transfer_ask" value="J：新宿駅での乗り換え時間は&lt;br&gt;どのくらい空けますか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase3">
+          <mxGeometry x="540" y="570" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_calc_shinjuku" value="新宿駅到着時刻の導出&lt;br&gt;（経路に新宿含む/含まない）&lt;br&gt;＋&lt;br&gt;新宿駅発射可能時刻の算出&lt;br&gt;（到着時刻＋乗換時間）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="phase3">
+          <mxGeometry x="380" y="650" width="240" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_propose_route" value="新宿以降の初期提案経路の導出&lt;br&gt;①新宿発で出発時刻＞可能時刻&lt;br&gt;②最も可能時刻に近い&lt;br&gt;③最短所要時間" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="phase3">
+          <mxGeometry x="380" y="770" width="240" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_final_propose" value="J：水戸からNN:NN発の&lt;br&gt;特急XXX NN号で○○駅降車。&lt;br&gt;そのあと在来特急XXX XXX号で&lt;br&gt;新宿からNN:NN乗車し&lt;br&gt;XXX駅にMM:MM降車。&lt;br&gt;よろしいでしょうか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase3">
+          <mxGeometry x="370" y="870" width="260" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_user_no" value="利用客：いいえ" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="280" y="990" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_adjust_label" value="「遅い早い選定ルール」で&lt;br&gt;OKになるまで繰り返し" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="phase3">
+          <mxGeometry x="130" y="1000" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_user_yes" value="利用客：はい" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="phase3">
+          <mxGeometry x="600" y="990" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="chuo_to_confirm" value="確認フェーズへ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="phase3">
+          <mxGeometry x="580" y="1060" width="160" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== Y. 確認フェーズ ========== -->
+        <mxCell id="phase4" value="Y．確認フェーズ" style="swimlane;fillColor=#d5e8d4;strokeColor=#82b366;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="2220" width="1600" height="800" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_type" value="経路タイプ判定" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="phase4">
+          <mxGeometry x="720" y="60" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- すべて普通車 -->
+        <mxCell id="confirm_normal" value="水戸発で常磐線特急が&lt;br&gt;含まれない／利用しない" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="40" y="140" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_normal_msg" value="[パターン：すべて普通車]&lt;br&gt;J：すべて普通列車のご利用ですね。&lt;br&gt;確認します。乗車券は水戸駅からXX駅まで。&lt;br&gt;XX（利用日）のご利用で、&lt;br&gt;大人N名、子供N名。&lt;br&gt;以上でよろしいですか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="20" y="220" width="220" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- 新宿乗り換えを含まない -->
+        <mxCell id="confirm_no_shinjuku" value="水戸発で新宿乗り換えを&lt;br&gt;含まない" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="260" y="140" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_joban_seat" value="常磐線特急有の場合&lt;br&gt;J：常磐線特急●●の&lt;br&gt;座席の希望はございますか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="250" y="220" width="200" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_zarai_seat" value="在来特急有の場合&lt;br&gt;（利用しないと言ってない場合）&lt;br&gt;J：在来特急●●の&lt;br&gt;座席の希望はございますか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="250" y="310" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_no_shinjuku_final" value="最終確認&lt;br&gt;在来特急なし：常磐線特急のみ案内&lt;br&gt;在来特急あり：両方案内" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="250" y="410" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- 新宿乗り換えを含む -->
+        <mxCell id="confirm_with_shinjuku" value="水戸発で新宿乗り換えを&lt;br&gt;含む" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="480" y="140" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_shinjuku_seat" value="常磐線特急・在来特急の&lt;br&gt;座席希望確認&lt;br&gt;（新宿乗り換えパターンも同様）" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="470" y="220" width="200" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confirm_shinjuku_final" value="最終確認&lt;br&gt;※早い・遅いの調整で&lt;br&gt;最終的に在来特急がない&lt;br&gt;経路になることがある" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="470" y="310" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- 共通最終確認 -->
+        <mxCell id="final_confirm" value="J：確認します。&lt;br&gt;乗車券は水戸からXXまで。&lt;br&gt;特急券は...&lt;br&gt;以上でよろしいですか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="700" y="500" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user_final" value="利用客の最終確認" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="phase4">
+          <mxGeometry x="740" y="610" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="reset" value="利用客：いいえ&lt;br&gt;J：かしこまりました。&lt;br&gt;初めからお聞きいたします。&lt;br&gt;どちらに行かれますか？" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="phase4">
+          <mxGeometry x="540" y="690" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="issue_ticket" value="利用客：はい&lt;br&gt;切符画面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="phase4">
+          <mxGeometry x="880" y="690" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- 終了 -->
+        <mxCell id="end" value="終了" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="600" y="3060" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== 接続線 ========== -->
+        <!-- 基本的なフロー -->
+        <mxCell edge="1" parent="1" source="start" target="ask_dest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="ask_dest" target="input_info">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="input_info" target="validate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="validate" target="invalid_msg">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell value="無効" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="490" y="420" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="validate" target="get_routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="有効" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="680" y="420" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="invalid_msg" target="ask_dest">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="430" />
+              <mxPoint x="420" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="get_routes" target="check_joban">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- 常磐線フェーズの接続 -->
+        <mxCell edge="1" parent="1" source="check_joban" target="no_joban">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="ない" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="480" y="680" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="check_joban" target="ask_joban">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="ある" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="660" y="730" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="ask_joban" target="joban_no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="ask_joban" target="joban_yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="joban_no" target="joban_no_pattern">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="joban_yes" target="ask_time">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="ask_time" target="time_no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="ask_time" target="time_yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="time_no" target="unspecified_seat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="unspecified_seat" target="unspecified_no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="unspecified_seat" target="unspecified_yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="unspecified_no" target="unspecified_no_pattern">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="unspecified_yes" target="unspecified_yes_pattern">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="time_yes" target="time_type">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="time_type" target="search_arrival">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="到着時刻" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="750" y="1170" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="time_type" target="search_departure">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="出発時刻" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="750" y="1430" as="geometry" />
+        </mxCell>
+        
+        <!-- 到着時刻指定の接続 -->
+        <mxCell edge="1" parent="1" source="search_arrival" target="arrival_exists">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="arrival_exists" target="arrival_no_route">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="なし" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="940" y="810" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="arrival_exists" target="arrival_propose">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="あり" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1080" y="850" as="geometry" />
+        </mxCell>
+        
+        <!-- NO:33に戻る -->
+        <mxCell edge="1" parent="1" source="arrival_no_route" target="ask_time" style="dashed=1;dashPattern=1 2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="850" />
+              <mxPoint x="780" y="850" />
+              <mxPoint x="780" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell value="NO:33に戻る" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="780" y="900" as="geometry" />
+        </mxCell>
+        
+        <!-- 出発時刻指定の接続 -->
+        <mxCell edge="1" parent="1" source="search_departure" target="zairaisen_check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="zairaisen_check" target="no_zairaisen_route_check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="なし" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1020" y="1540" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="zairaisen_check" target="zairaisen_direction">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="あり" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1200" y="1540" as="geometry" />
+        </mxCell>
+        
+        <!-- 中央線処理フェーズへの遷移 -->
+        <mxCell edge="1" parent="1" source="to_chuo_process" target="chuo_confirm_time">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- 中央線処理の接続 -->
+        <mxCell edge="1" parent="1" source="chuo_confirm_time" target="chuo_time_no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="chuo_confirm_time" target="chuo_time_yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="chuo_time_no" target="chuo_time_restart">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- NO:33に戻る -->
+        <mxCell edge="1" parent="1" source="chuo_time_restart" target="ask_time" style="dashed=1;dashPattern=1 2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1800" y="960" />
+              <mxPoint x="780" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell value="NO:33に戻る" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1300" y="960" as="geometry" />
+        </mxCell>
+        
+        <!-- 確認フェーズへの遷移 -->
+        <mxCell edge="1" parent="1" source="no_joban" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="joban_no_pattern" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="unspecified_no_pattern" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="unspecified_yes_pattern" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="arrival_confirm_pattern" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="zairaisen_no_pattern" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1280" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="zairaisen_not_chuo_pattern" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1450" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="chuo_to_confirm" target="confirm_type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2240" y="2100" />
+              <mxPoint x="840" y="2100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 最終確認の接続 -->
+        <mxCell edge="1" parent="1" source="user_final" target="reset">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="いいえ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="720" y="2900" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="user_final" target="issue_ticket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell value="はい" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="900" y="2900" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="issue_ticket" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- スタートに戻る -->
+        <mxCell edge="1" parent="1" source="reset" target="ask_dest" style="dashed=1;dashPattern=1 2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="2970" />
+              <mxPoint x="40" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell value="スタートに戻る" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="40" y="1600" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

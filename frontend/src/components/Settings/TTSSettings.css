@@ -1,0 +1,169 @@
+.tts-settings {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.tts-settings__title {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.tts-settings__provider {
+  margin-bottom: 20px;
+}
+
+.tts-settings__label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.tts-settings__radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.tts-settings__radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tts-settings__radio input[type="radio"] {
+  margin-right: 8px;
+}
+
+.tts-settings__radio span {
+  color: #333;
+}
+
+.tts-settings__gemini,
+.tts-settings__azure,
+.tts-settings__google-cloud {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.tts-settings__field {
+  margin-bottom: 15px;
+}
+
+.tts-settings__api-key-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tts-settings__input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.tts-settings__input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.tts-settings__toggle-visibility {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.tts-settings__toggle-visibility:hover {
+  background-color: #e0e0e0;
+}
+
+.tts-settings__select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.tts-settings__select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.tts-settings__hint {
+  display: block;
+  margin-top: 4px;
+  color: #888;
+  font-size: 12px;
+}
+
+.tts-settings__info {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.tts-settings__env-list {
+  margin: 10px 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.tts-settings__env-list li {
+  margin: 5px 0;
+  font-family: monospace;
+  font-size: 13px;
+  color: #555;
+}
+
+.tts-settings__actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tts-settings__save-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tts-settings__save-button:hover {
+  background-color: #45a049;
+}
+
+.tts-settings__save-button:active {
+  transform: translateY(1px);
+}
+
+.tts-settings__code {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 13px;
+  color: #333;
+}
